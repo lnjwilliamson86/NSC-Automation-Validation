@@ -43,7 +43,8 @@ validation<-all_data%>%
   separate(runtime_min_temp_switch_CO2, into= c("date_4","runtime_min_temp_switch_CO2"),sep=" ")%>%
   separate(time_return_range, into= c("date_5","time_return_range"),sep=" ")%>%
   separate(total_runtime, into= c("date_6", "total_runtime"),sep= " ")%>%
-  select(-c(date,date_2,date_3,date_4,date_5,date_6))
+  select(-c(date,date_2,date_3,date_4,date_5,date_6))%>%
+  view()
   
   #http://www.datasciencemadesimple.com/drop-variables-columns-r-using-dplyr/
   
