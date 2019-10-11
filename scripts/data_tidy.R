@@ -27,11 +27,12 @@ other_data<- read_excel("data/comissioning_data.xlsx",
 #create a single data frame and add the following columns test_number,final_mass,mass_loss,CRI and CSR. 
 
 all_data<- bind_rows(SR0204_data,SR0190_data,other_data)%>% # binds three data frames SR0204_data, SR0190_data and other_data into a single data frame and assigns the variable all_data
-  mutate(test_number= c(1:81), #Add a column that gives each line a unique identifier
+  mutate(test_number= row_number(), #Add a column that gives each line a unique identifier
          final_mass= `Weight+10mm` + `Weight-10mm`, # calculates a new column called final_mass by adding `Weight+10mm` and `Weight-10mm`columns.
          mass_loss=Weight_Out - final_mass, # calculates a new column called mass_loss by subracting Weight_out from final_mass
          CRI= (((Weight_In-Weight_Out)/Weight_In)*100), #calculates a new column called CRI using formula ((Weight_In - Weight_Out)/Weight_In) *100
-         CSR= ((`Weight+10mm`/Weight_Out)*100)) #calculates a new column called CSR by using formula (`Weight+10mm`/Weight_Out)*100
+         CSR= ((`Weight+10mm`/Weight_Out)*100))%>% #calculates a new column called CSR by using formula (`Weight+10mm`/Weight_Out)*100
+  view()#views the dataframe
 
 
 #removing date information from columns. 
