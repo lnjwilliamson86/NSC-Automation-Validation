@@ -50,11 +50,23 @@ validation<-all_data%>% # takes the dataframe all_data and assigns to validation
   view()#views the data frame
   
 #add a col to the dataframe using runtime_switch_Co2 and time_return_range to get PID_response_time using mutate. 
-validation %>%
-  mutate(PID_response= time_return_range - Runtime_switch_CO2 )%>%
+#validation %>%
+  #mutate(PID_response= time_return_range - Runtime_switch_CO2 )%>%
+  #view()
+
+
+
+validation%>%
+  int_length(interval(start=time_return_range,end=Runtime_switch_CO2))%>%
   view()
 
+
+int<-interval(start=hms(time_return_range),end=hms(Runtime_switch_CO2))
+  int_length(int)%>%
+  view()
   
-
-
+int <- interval(start=ymd_hms("2019-01-01"),end=ymd_hms("2019-02-01"))
+  
+int_length(int)%>%
+    view()
   
