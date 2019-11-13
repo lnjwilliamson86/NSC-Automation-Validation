@@ -40,7 +40,7 @@ all_data<- bind_rows(SR0204_data,SR0190_data,SR0170_data,other_data)%>% # binds 
          final_mass= `Weight+10mm` + `Weight-10mm`, # calculates a new column called final_mass by adding `Weight+10mm` and `Weight-10mm`columns.
          mass_loss=Weight_Out - final_mass, # calculates a new column called mass_loss by subracting Weight_out from final_mass
          CRI= (((Weight_In-Weight_Out)/Weight_In)*100), #calculates a new column called CRI using formula ((Weight_In - Weight_Out)/Weight_In) *100
-         CSR= ((`Weight+10mm`/Weight_Out)*100))%>% #calculates a new column called CSR by using formula (`Weight+10mm`/Weight_Out)*100
+         CSR= ((`Weight+10mm`/Weight_Out)*100)),%>% #calculates a new column called CSR by using formula (`Weight+10mm`/Weight_Out)*100
   view()#views the dataframe
 
 #removing date information from the process data columns.Each test has assosicated process data of interst for this project is the time that it takes
@@ -61,7 +61,6 @@ all_data_time_only<-all_data%>% # takes the dataframe all_data and assigns to va
 #Filter all data to create a dataframe that contains just the 30 replicates that are the commissioning valaidation data and assigns to the validation_data table
 validation_data <- filter(all_data_time_only,Validation == "Y")%>%
  view()
-  
 
 
 
