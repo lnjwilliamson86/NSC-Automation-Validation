@@ -40,7 +40,7 @@ all_data<- bind_rows(SR0204_data,SR0190_data,SR0170_data,other_data)%>% # binds 
          final_mass= `Weight+10mm` + `Weight-10mm`, # calculates a new column called final_mass by adding `Weight+10mm` and `Weight-10mm`columns.
          mass_loss=Weight_Out - final_mass, # calculates a new column called mass_loss by subracting Weight_out from final_mass
          CRI= (((Weight_In-Weight_Out)/Weight_In)*100), #calculates a new column called CRI using formula ((Weight_In - Weight_Out)/Weight_In) *100
-         CSR= ((`Weight+10mm`/Weight_Out)*100)),%>% #calculates a new column called CSR by using formula (`Weight+10mm`/Weight_Out)*100
+         CSR= ((`Weight+10mm`/Weight_Out)*100))%>% #calculates a new column called CSR by using formula (`Weight+10mm`/Weight_Out)*100
   view()#views the dataframe
 
 #removing date information from the process data columns.Each test has assosicated process data of interst for this project is the time that it takes
@@ -56,6 +56,7 @@ all_data_time_only<-all_data%>% # takes the dataframe all_data and assigns to va
   separate(time_return_range, into= c("date_5","time_return_range"),sep=" ")%>% #separates col time_return_range into 2 cols one called date and the other called time_return_range
   separate(total_runtime, into= c("date_6", "total_runtime"),sep= " ")%>% #separates col total_runtime into 2 cols one called date and the other called total_runtime
   select(-c(date,date_2,date_3,date_4,date_5,date_6))%>% # select function removes the added date-date_6 cols from the data frame. 
+  as_hms(time_to_1100oC)
   view()#views the data frame
 
 #Filter all data to create a dataframe that contains just the 30 replicates that are the commissioning valaidation data and assigns to the validation_data table
