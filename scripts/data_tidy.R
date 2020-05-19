@@ -76,7 +76,17 @@ mean_auto_CRI<-all_data%>%
   group_by(Sample)%>%
   summarise(mean= mean(CRI), n=n())
 
+#Determine mean CSR for manual runs for each sample and assigns to mean_man_CSR
+mean_man_CSR<-all_data%>%
+  filter(Mode == "Manual")%>%
+  group_by(Sample)%>%
+  summarise(mean= mean(CSR), n=n())
 
+#Determine mean CRI for manual runs for each sample and assigns to mean_man_CRI
+mean_man_CRI<-all_data%>%
+  filter(Mode == "Manual")%>%
+  group_by(Sample)%>%
+  summarise(mean= mean(CRI), n=n())
 
 
 
