@@ -146,7 +146,8 @@ CRI_CSR_plot_all <- ggplot (data=all_data_time_only,
                                     y= CSR,
                                     colour=Mode)) +
   geom_point(aes(shape=Sample),size=2) + 
-  scale_colour_manual(values= c("#001932", "#00B1D9"))
+  scale_colour_manual(values= c("#001932", "#00B1D9"))+
+  theme_bw()
   #geom_abline(aes(intercept=100.34,slope=-1.34), colour = "#EC519D") +
   #labs(title= "CRI vs CSR for Control Samples")
 
