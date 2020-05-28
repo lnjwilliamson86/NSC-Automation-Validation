@@ -25,7 +25,8 @@ SR0204_CRI_plot <-ggplot(data=tidy_SR0204,
                                      y= CRI,
                                      colour=Mode)) +
   geom_point(shape="triangle",size=2) + 
-  geom_hline(aes(yintercept=mean(CRI)), colour = "red") +
+  scale_colour_manual(values= c("#001932", "#00B1D9"))+
+  geom_hline(aes(yintercept=mean(CRI)), colour = "#EC519D") +
   labs(title= "High Reactivity (SR0204) CRI", x="Replicate")
 
 #4. create the CSR vs replicate plot and assign to SR0201_CSR_plot
@@ -33,8 +34,9 @@ SR0204_CSR_plot <-ggplot(data=tidy_SR0204,
                          mapping=aes(x= Replicate_Number,
                                      y= CSR,
                                      colour=Mode)) +
-  geom_point(shape="triangle",size=2) + 
-  geom_hline(aes(yintercept=mean(CSR)), colour = "red") +
+  geom_point(shape="triangle",size=2)+
+  scale_colour_manual(values= c("#001932", "#00B1D9"))+
+  geom_hline(aes(yintercept=mean(CSR)), colour = "#EC519D") +
   labs(title= "High Reactivity (SR0204) CSR", x="Replicate")
 
 #5. join the CRI and CSR plots and assign to high_reactivity_results_plot 
@@ -64,7 +66,8 @@ SR0190_CRI_plot <-ggplot(data=tidy_SR0190,
                                      y= CRI,
                                      colour=Mode)) +
   geom_point(shape="triangle",size=2) + 
-  geom_hline(aes(yintercept=mean(CRI)), colour = "red") +
+  scale_colour_manual(values= c("#001932", "#00B1D9"))+
+  geom_hline(aes(yintercept=mean(CRI)), colour = "#EC519D") +
   labs(title= "Low Reactivity (SR0190) CRI", x="Replicate")
 
 #4. create the CSR vs replicate plot and assign to SR0190_CSR_plot
@@ -73,7 +76,8 @@ SR0190_CSR_plot <-ggplot(data=tidy_SR0190,
                                      y= CSR,
                                      colour=Mode)) +
   geom_point(shape="triangle",size=2) + 
-  geom_hline(aes(yintercept=mean(CSR)), colour = "red") +
+  scale_colour_manual(values= c("#001932", "#00B1D9"))+
+  geom_hline(aes(yintercept=mean(CSR)), colour = "#EC519D") +
   labs(title= "Low Reactivity (SR0190) CSR", x="Replicate")
 
 #5. join the CRI and CSR plots and assign to low_reactivity_results_plot 
@@ -103,7 +107,8 @@ SR0170_CRI_plot <-ggplot(data=tidy_SR0170,
                                      y= CRI,
                                      colour=Mode)) +
   geom_point(shape="triangle",size=2) + 
-  geom_hline(aes(yintercept=mean(CRI)), colour = "red") +
+  scale_colour_manual(values= c("#001932", "#00B1D9"))+
+  geom_hline(aes(yintercept=mean(CRI)), colour = "#EC519D") +
   labs(title= "Medium Reactivity (SR0170) CRI", x="Replicate")
 
 #4. create the CSR vs replicate plot and assign to SR0170_CSR_plot
@@ -112,7 +117,8 @@ SR0170_CSR_plot <-ggplot(data=tidy_SR0170,
                                      y= CSR,
                                      colour=Mode)) +
   geom_point(shape="triangle",size=2) + 
-  geom_hline(aes(yintercept=mean(CSR)), colour = "red") +
+  scale_colour_manual(values= c("#001932", "#00B1D9"))+
+  geom_hline(aes(yintercept=mean(CSR)), colour = "#EC519D") +
   labs(title= "Medium Reactivity (SR0170) CSR", x="Replicate")
 
 #5. join the CRI and CSR plots and assign to medium_reactivity_results_plot 
@@ -129,7 +135,7 @@ CRI_CSR_plot_validation_only <- ggplot (data=validation_data,
                                     y= CSR,
                                     colour=Sample)) +
   geom_point(shape="triangle",size=2) + 
-  geom_abline(aes(intercept=100.34,slope=-1.34), colour = "red") +
+  geom_abline(aes(intercept=100.34,slope=-1.34), colour = "#EC519D") +
   labs(title= "CRI vs CSR for Automated Temperature Control Comissioning")
   
 ggsave("figures/CRI_CSR_plot_validation_only.png",plot=CRI_CSR_plot_validation_only)
@@ -140,7 +146,7 @@ CRI_CSR_plot_all <- ggplot (data=all_data_time_only,
                                     y= CSR,
                                     colour=Mode)) +
   geom_point(aes(shape=Sample),size=2) + 
-  geom_abline(aes(intercept=100.34,slope=-1.34), colour = "red") +
+  geom_abline(aes(intercept=100.34,slope=-1.34), colour = "#EC519D") +
   labs(title= "CRI vs CSR for Control Samples")
 
 ggsave("figures/CRI_CSR_plot_all.png",plot=CRI_CSR_plot_all)
@@ -151,7 +157,7 @@ CRI_CSR_plot_all_operator <- ggplot (data=all_data_time_only,
                                         y= CSR,
                                         colour=Operator)) +
   geom_point(aes(shape=Mode),size=2) + 
-  geom_abline(aes(intercept=100.34,slope=-1.34), colour = "red") +
+  geom_abline(aes(intercept=100.34,slope=-1.34), colour = "#EC519D") +
   labs(title= "CRI vs CSR for Control Samples")
 
 ggsave("figures/CRI_CSR_plot_all_operator.png",plot=CRI_CSR_plot_all_operator)

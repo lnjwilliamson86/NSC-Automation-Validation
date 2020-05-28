@@ -92,19 +92,19 @@ summary_man_CRI<-all_data%>%
 #also uses the select function to select and rename columns, also allows columns to be reordered based on the order they are listed in the select function.
 CSR_Summary<- full_join(summary_auto_CSR, summary_CSR, by= "Sample") %>%
   full_join(., summary_man_CSR, by="Sample")%>%
-    select(Sample, Mean_All= mean.y ,SD_All = sd.y,Mean_Auto = mean.x, SD_Auto =sd.x,  Mean_Man= mean, SD_Man = sd)
+    select(Sample, Mean_All= mean.y ,SD_All = sd.y, n_All= n.y, Mean_Auto = mean.x, SD_Auto =sd.x, n_Auto= n.x,  Mean_Man= mean, SD_Man = sd, n_Man=n)
 
 #Using nested full joins CRI summary tables to a single data frame https://stackoverflow.com/questions/32066402/how-to-perform-multiple-left-joins-using-dplyr-in-r
 #also uses the select function to select and rename columns, also allows columns to be reordered based on the order they are listed in the select function.
 CRI_Summary<- full_join(summary_auto_CRI, summary_CRI, by= "Sample") %>%
   full_join(., summary_man_CRI, by="Sample")%>%
-  select(Sample, Mean_All= mean.y ,SD_All = sd.y,Mean_Auto = mean.x, SD_Auto =sd.x,  Mean_Man= mean, SD_Man = sd)
+  select(Sample, Mean_All= mean.y ,SD_All = sd.y, n_All= n.y, Mean_Auto = mean.x, SD_Auto =sd.x, n_Auto= n.x,  Mean_Man= mean, SD_Man = sd, n_Man=n)
 
 #Save CSR_Summary data frame as CSV in results folder
 write_csv(CSR_Summary,"results/CSR_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
 
 #Save CRI_Summary data frame as CSV in results folder
-write_csv(CSR_Summary,"results/CRI_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
+write_csv(CRI_Summary,"results/CRI_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
 
 
 
