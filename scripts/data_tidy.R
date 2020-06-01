@@ -106,6 +106,46 @@ write_csv(CSR_Summary,"results/CSR_Summary_output.csv",na = "NA", append = FALSE
 #Save CRI_Summary data frame as CSV in results folder
 write_csv(CRI_Summary,"results/CRI_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
 
+#t test for difference between means for CSR & CRI
+#1. Filter all_data to give data for each sample
+SR0204_only <- all_data %>%
+  filter(Sample=="SR0204")
+
+SR0170_only <- all_data %>%
+  filter(Sample=="SR0170")
+
+SR0190_only <- all_data %>%
+  filter(Sample=="SR0190")
+
+#2. T test for CRI Means
+SR0204_CRI_t <- t.test(CRI~Mode, data = SR0204_only)
+
+SR0170_CRI_t <- t.test(CRI~Mode, data = SR0170_only)
+
+SR0190_CRI_t <- t.test(CRI~Mode, data = SR0190_only)
+
+#3. T test for CSR Means
+SR0204_CSR_t <- t.test(CSR~Mode, data = SR0204_only)
+
+SR0170_CSR_t <- t.test(CSR~Mode, data = SR0170_only)
+
+SR0190_CSR_t <- t.test(CSR~Mode, data = SR0190_only)
+
+# 4. Print to console
+SR0204_CRI_t 
+
+SR0170_CRI_t 
+
+SR0190_CRI_t
+
+SR0204_CSR_t 
+
+SR0170_CSR_t
+
+SR0190_CSR_t 
+
+
+
 
 
 
