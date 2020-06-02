@@ -33,6 +33,10 @@ SR0170_data<- read_excel("data/comissioning_data.xlsx",
                         #col_names=TRUE,
                         #col_types=c("text","text","text","date","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","date","numeric","date","numeric","date","numeric","date","date","date","text")) #reads data in sheet Other Samples of the file comissioning_data.xlsx, column types have been specified to facilitate binding rows.
 
+
+
+
+
 #create a single data frame and add the following columns of test results test_number,final_mass,mass_loss,CRI and CSR. 
 
 all_data<- bind_rows(SR0204_data,SR0190_data,SR0170_data)%>% # binds four data frames SR0204_data, SR0190_data, SR0170_data into a single data frame and assigns the variable all_data
@@ -54,51 +58,61 @@ write_csv(all_data,"results/all_data_output.csv",na = "NA", append = FALSE, col_
 #Save validation_data data frame as CSV in results folder
 write_csv(validation_data,"results/validation_data_output.csv",na = "NA", append = FALSE, col_names = TRUE )
 
+
+
+
+
+
+##Determine Summary Statistics for each sample and join into tables for export. 
 #Determine mean CSR for each sample and assigns to mean_CSR
 summary_CSR<-all_data%>%
   group_by(Sample)%>%
-  summarise(mean= mean(CSR), n=n(),sd= sd(CSR))
+  summarise(mean= mean(CSR), n=n(),sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
 
 #Determine mean CRI for each sample and assigns to mean_CRI
 summary_CRI<-all_data%>%
   group_by(Sample)%>%
-  summarise(mean= mean(CRI), n=n(),sd= sd(CRI))
+  summarise(mean= mean(CRI), n=n(),sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
 
 #Determine mean CSR for autoamted runs for each sample and assigns to mean_auto_CSR
 summary_auto_CSR<-all_data%>%
   filter(Mode == "Auto")%>%
   group_by(Sample)%>%
-  summarise(mean= mean(CSR), n=n(),sd= sd(CSR))
+  summarise(mean= mean(CSR), n=n(),sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
 
 #Determine mean CRI for automated runs for each sample and assigns to mean_auto_CRI
 summary_auto_CRI<-all_data%>%
   filter(Mode == "Auto")%>%
   group_by(Sample)%>%
-  summarise(mean= mean(CRI), n=n(),sd= sd(CRI))
+  summarise(mean= mean(CRI), n=n(),sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
 
 #Determine mean CSR for manual runs for each sample and assigns to mean_man_CSR
 summary_man_CSR<-all_data%>%
   filter(Mode == "Manual")%>%
   group_by(Sample)%>%
-  summarise(mean= mean(CSR), n=n(), sd= sd(CSR))
+  summarise(mean= mean(CSR), n=n(), sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
 
 #Determine mean CRI for manual runs for each sample and assigns to mean_man_CRI
 summary_man_CRI<-all_data%>%
   filter(Mode == "Manual")%>%
   group_by(Sample)%>%
-  summarise(mean= mean(CRI), n=n(), sd= sd(CRI))
+  summarise(mean= mean(CRI), n=n(), sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
 
 #Using nested full joins CSR summary tables to a single data frame https://stackoverflow.com/questions/32066402/how-to-perform-multiple-left-joins-using-dplyr-in-r
 #also uses the select function to select and rename columns, also allows columns to be reordered based on the order they are listed in the select function.
 CSR_Summary<- full_join(summary_auto_CSR, summary_CSR, by= "Sample") %>%
   full_join(., summary_man_CSR, by="Sample")%>%
-    select(Sample, Mean_All= mean.y ,SD_All = sd.y, n_All= n.y, Mean_Auto = mean.x, SD_Auto =sd.x, n_Auto= n.x,  Mean_Man= mean, SD_Man = sd, n_Man=n)
+    select(Sample, Mean_All= mean.y ,Median_All= median.y, SD_All = sd.y, var_All = var.y, IQR_All = IQR.y, n_All= n.y, 
+           Mean_Auto = mean.x, Median_Auto= median.x, SD_Auto =sd.x, var_Auto = var.x, IQR_Auto = IQR.x, n_Auto= n.x, 
+           Mean_Man= mean, Median_Man= median, SD_Man = sd, var_Man = var, IQR_Man = IQR, n_Man=n)
 
 #Using nested full joins CRI summary tables to a single data frame https://stackoverflow.com/questions/32066402/how-to-perform-multiple-left-joins-using-dplyr-in-r
 #also uses the select function to select and rename columns, also allows columns to be reordered based on the order they are listed in the select function.
 CRI_Summary<- full_join(summary_auto_CRI, summary_CRI, by= "Sample") %>%
   full_join(., summary_man_CRI, by="Sample")%>%
-  select(Sample, Mean_All= mean.y ,SD_All = sd.y, n_All= n.y, Mean_Auto = mean.x, SD_Auto =sd.x, n_Auto= n.x,  Mean_Man= mean, SD_Man = sd, n_Man=n)
+  select(Sample, Mean_All= mean.y ,Median_All= median.y, SD_All = sd.y, var_All = var.y, IQR_All = IQR.y, n_All= n.y, 
+         Mean_Auto = mean.x, Median_Auto= median.x, SD_Auto =sd.x, var_Auto = var.x, IQR_Auto = IQR.x, n_Auto= n.x, 
+         Mean_Man= mean, Median_Man= median, SD_Man = sd, var_Man = var, IQR_Man = IQR, n_Man=n)
 
 #Save CSR_Summary data frame as CSV in results folder
 write_csv(CSR_Summary,"results/CSR_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
@@ -151,7 +165,6 @@ SR0170_CSR_t
 SR0190_CSR_t 
 
 all_CSR_t
-
 
 
 
