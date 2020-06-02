@@ -124,12 +124,16 @@ SR0170_CRI_t <- t.test(CRI~Mode, data = SR0170_only)
 
 SR0190_CRI_t <- t.test(CRI~Mode, data = SR0190_only)
 
+all_CRI_t <- t.test(CRI~Mode, data =  all_data)
+
 #3. T test for CSR Means
 SR0204_CSR_t <- t.test(CSR~Mode, data = SR0204_only)
 
 SR0170_CSR_t <- t.test(CSR~Mode, data = SR0170_only)
 
 SR0190_CSR_t <- t.test(CSR~Mode, data = SR0190_only)
+
+all_CSR_t <- t.test(CSR~Mode, data =  all_data)
 
 # 4. Print to console
 SR0204_CRI_t 
@@ -138,11 +142,15 @@ SR0170_CRI_t
 
 SR0190_CRI_t
 
+all_CRI_t
+
 SR0204_CSR_t 
 
 SR0170_CSR_t
 
 SR0190_CSR_t 
+
+all_CSR_t
 
 
 
