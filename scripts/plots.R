@@ -164,3 +164,17 @@ CRI_CSR_plot_all_operator <- ggplot (data=all_data_time_only,
 
 ggsave("figures/CRI_CSR_plot_all_operator.png",plot=CRI_CSR_plot_all_operator)
 
+
+
+#create a CSR vs CRI plot for SR0204 data only. The geom_abline function plots the relationship from https://doi.org/10.1080/03019233.2018.1486795 CSR=100.34-1.34*CRI
+CRI_CSR_plot_SR0204 <- ggplot (data=tidy_SR0204, 
+                            mapping=aes(x= CRI,
+                                        y= CSR,
+                                        colour=Mode)) +
+  geom_point(size=2) + 
+  scale_colour_manual(values= c("#001932", "#00B1D9"))+
+  theme_bw()
+#geom_abline(aes(intercept=100.34,slope=-1.34), colour = "#EC519D") +
+#labs(title= "CRI vs CSR for Control Samples")
+
+ggsave("figures/CRI_CSR_plot_SR0204.png",plot=CRI_CSR_plot_SR0204)
