@@ -162,7 +162,7 @@ CSR_Summary_all<- full_join(summary_auto_CSR_all, summary_CSR_all,by= NULL) %>%
 #Using nested full joins CRI summary tables for all samples to a single data frame https://stackoverflow.com/questions/32066402/how-to-perform-multiple-left-joins-using-dplyr-in-r
 #also uses the select function to select and rename columns, also allows columns to be reordered based on the order they are listed in the select function.
 CRI_Summary_all<- full_join(summary_auto_CRI_all, summary_CRI_all, by= NULL) %>%
-  full_join(., summary_man_CRI-all, by=NULL)%>%
+  full_join(., summary_man_CRI_all, by=NULL)%>%
   add_column(.,mode=c("auto","all","man"),.before =1)
 
   
