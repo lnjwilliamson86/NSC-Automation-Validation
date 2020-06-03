@@ -61,8 +61,6 @@ write_csv(validation_data,"results/validation_data_output.csv",na = "NA", append
 
 
 
-
-
 ##Determine Summary Statistics for each sample and join into tables for export. 
 #Determine mean CSR for each sample and assigns to mean_CSR
 summary_CSR<-all_data%>%
@@ -98,6 +96,9 @@ summary_man_CRI<-all_data%>%
   group_by(Sample)%>%
   summarise(mean= mean(CRI), n=n(), sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
 
+
+
+
 #Using nested full joins CSR summary tables to a single data frame https://stackoverflow.com/questions/32066402/how-to-perform-multiple-left-joins-using-dplyr-in-r
 #also uses the select function to select and rename columns, also allows columns to be reordered based on the order they are listed in the select function.
 CSR_Summary<- full_join(summary_auto_CSR, summary_CSR, by= "Sample") %>%
@@ -115,10 +116,64 @@ CRI_Summary<- full_join(summary_auto_CRI, summary_CRI, by= "Sample") %>%
          Mean_Man= mean, Median_Man= median, SD_Man = sd, var_Man = var, IQR_Man = IQR, n_Man=n)
 
 #Save CSR_Summary data frame as CSV in results folder
-write_csv(CSR_Summary,"results/CSR_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
+write_csv(CSR_Summary,"results/CSR_Summary_output_by_sample.csv",na = "NA", append = FALSE, col_names = TRUE )
 
 #Save CRI_Summary data frame as CSV in results folder
-write_csv(CRI_Summary,"results/CRI_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
+write_csv(CRI_Summary,"results/CRI_Summary_output_by_sample.csv",na = "NA", append = FALSE, col_names = TRUE )
+
+
+
+##repeat of above to provide summary table for all samples 
+#Determine summary statistics for CSR of all samples  and assigns to summary_CSR_all
+summary_CSR_all<-all_data%>%
+  summarise(mean= mean(CSR), n=n(),sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
+
+#Determine summary CRI for all sample and assigns to summary_CRI_all
+summary_CRI_all<-all_data%>%
+  summarise(mean= mean(CRI), n=n(),sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
+
+#Determine Summary CSR for autoamted runs for each sample and assigns to summary_auto_CSR_all
+summary_auto_CSR_all<-all_data%>%
+  filter(Mode == "Auto")%>%
+  summarise(mean= mean(CSR), n=n(),sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
+
+#Determine Summary CRI for automated runs for each sample and assigns to summary_auto_CRI_all
+summary_auto_CRI_all<-all_data%>%
+  filter(Mode == "Auto")%>%
+  summarise(mean= mean(CRI), n=n(),sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
+
+#Determine Summary CSR for manual runs for each sample and assigns to summary_man_CSR_all
+summary_man_CSR_all<-all_data%>%
+  filter(Mode == "Manual")%>%
+  summarise(mean= mean(CSR), n=n(), sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
+
+#Determine summary CRI for manual runs for each sample and assigns to summary_man_CRI_all
+summary_man_CRI_all<-all_data%>%
+  filter(Mode == "Manual")%>%
+  summarise(mean= mean(CRI), n=n(), sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
+
+
+#Using nested full joins CSR summary tables for all samples  to a single data frame https://stackoverflow.com/questions/32066402/how-to-perform-multiple-left-joins-using-dplyr-in-r
+#also uses the add_coloumn fucntion to albel the rows
+CSR_Summary_all<- full_join(summary_auto_CSR_all, summary_CSR_all,by= NULL) %>%
+  full_join(., summary_man_CSR_all, by= NULL)%>%
+  add_column(.,mode=c("auto","all","man"),.before =1)
+
+#Using nested full joins CRI summary tables for all samples to a single data frame https://stackoverflow.com/questions/32066402/how-to-perform-multiple-left-joins-using-dplyr-in-r
+#also uses the select function to select and rename columns, also allows columns to be reordered based on the order they are listed in the select function.
+CRI_Summary_all<- full_join(summary_auto_CRI_all, summary_CRI_all, by= NULL) %>%
+  full_join(., summary_man_CRI-all, by=NULL)%>%
+  add_column(.,mode=c("auto","all","man"),.before =1)
+
+  
+#Save CSR_Summary data frame as CSV in results folder
+write_csv(CSR_Summary_all,"results/CSR_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
+
+#Save CRI_Summary data frame as CSV in results folder
+write_csv(CRI_Summary_all,"results/CRI_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
+
+
+
 
 #t test for difference between means for CSR & CRI
 #1. Filter all_data to give data for each sample
