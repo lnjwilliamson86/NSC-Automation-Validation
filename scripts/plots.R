@@ -210,7 +210,7 @@ ggsave("figures/CRI_CSR_plot_SR0190.png",plot=CRI_CSR_plot_SR0190)
 
 
 
-# Create a plot to show time to return to range vs CRI/CSR a shape by mode colour by sample. 
+# Create a plot to show time to return to range vs CRI/CSR a shape by mode colour by sample. note that CRI plot has legend removed so that it can be joinde with the CSR plot
 PID_CRI_plot <- ggplot (data=all_data, 
                                      mapping=aes(x= PID_response_sec,
                                                  y= CRI,
@@ -218,6 +218,7 @@ PID_CRI_plot <- ggplot (data=all_data,
   geom_point(aes(shape=Mode),size=2) + 
   scale_colour_manual(values= c("#001932", "#00B1D9","#75767A"))+
   theme_bw()+
+  theme(legend.position = "none")+
   labs(x="Time to return to range (secs)")
 ggsave("figures/PID_CRI_plot.png",plot=PID_CRI_plot)
  
@@ -231,4 +232,7 @@ PID_CSR_plot <-ggplot (data=all_data,
   theme_bw()+
   labs(x="Time to return to range (secs)")
 ggsave("figures/PID_CSR_plot.png",plot=PID_CSR_plot)
-  
+
+#join PID response plots together 
+PID_plot<-plot_grid(PID_CRI_plot, PID_CSR_plot, rel_widths = c(0.75,1))
+ggsave("figures/PID_plot.png",plot=PID_plot)  
