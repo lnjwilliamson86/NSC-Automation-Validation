@@ -58,6 +58,7 @@ summary_CSR<-all_data%>%
 group_by(Sample)%>%
 summarise(mean= mean(CSR), n=n(),sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
 
+
 #Determine mean CRI for each sample and assigns to mean_CRI
 summary_CRI<-all_data%>%
 group_by(Sample)%>%
@@ -261,14 +262,28 @@ all_CSR_t
 
 
 
+#calcualte the standard devaition of the mean to give a measure of repeatability https://sciencing.com/do-calculate-repeatability-7446224.html SDM = SD ÷ root (n)
+#Whether you take repeatability to be the standard deviation or the standard deviation of the mean, it's true that the smaller the number, the higher the repeatability, and the higher the reliability of the results.
+SDM<-all_data %>%
+  group_by(Sample)%>%
+  summarise((SDM=sd(CSR))/(sqrt(n())),(SDM=sd(CRI))/(sqrt(n())))
 
+SDM_man<-all_data %>%
+  group_by(Sample)%>%
+  filter(Mode == "Manual")%>%
+  summarise((SDMman=sd(CSR))/(sqrt(n())),(SDMman=sd(CRI))/(sqrt(n())))
 
+SDM_auto<-all_data %>%
+  group_by(Sample)%>%
+  filter(Mode == "Auto")%>%
+  summarise((SDMauto=sd(CSR))/(sqrt(n())),(SDMauto=sd(CRI))/(sqrt(n())))
 
+#nested full join of the SDM data for each sample by mode
+SDM_Summary<-full_join(SDM_auto, SDM, by= "Sample") %>%
+     full_join(., SDM_man, by="Sample")
 
-
-
-
-
+#Save SDM_Summary data frame as CSV in results folder
+write_csv(SDM_Summary,"results/SDM_Summary_output_by_sample.csv",na = "NA", append = FALSE, col_names = TRUE )
 
 
 
