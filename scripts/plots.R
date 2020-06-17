@@ -207,3 +207,14 @@ CRI_CSR_plot_SR0190 <- ggplot (data=tidy_SR0190,
 #labs(title= "CRI vs CSR for Control Samples")
 
 ggsave("figures/CRI_CSR_plot_SR0190.png",plot=CRI_CSR_plot_SR0190)
+
+
+
+#create a CSR vs CRI plot for all data shape by mode colour by operator. The geom_abline function plots the relationship from https://doi.org/10.1080/03019233.2018.1486795 CSR=100.34-1.34*CRI
+PID_CRI_plot <- ggplot (data=all_data, 
+                                     mapping=aes(x= PID_response_sec,
+                                                 y= CRI,
+                                                 colour=Sample)) +
+  geom_point(aes(shape=Mode),size=2) + 
+  geom_abline(aes(intercept=100.34,slope=-1.34), colour = "#EC519D") +
+  labs(title= "PID response")
