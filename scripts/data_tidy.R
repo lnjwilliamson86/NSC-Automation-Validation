@@ -287,3 +287,31 @@ write_csv(SDM_Summary,"results/SDM_Summary_output_by_sample.csv",na = "NA", appe
 
 
 
+#Determine mean CSR for automated runs in each Furnace for each sample and assigns to mean_auto_CSR_by_furnace
+summary_auto_CSR_by_furnace<-all_data%>%
+  filter(Mode == "Auto")%>%
+  group_by(Sample, Furnace)%>%
+  summarise(mean= mean(CSR), n=n(),sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
+  write_csv(summary_auto_CSR_by_furnace,"results/Summary_auto_CSR_by_furnace.csv",na = "NA", append = FALSE, col_names = TRUE )
+
+#Determine mean CRI for automated runs in each Furnace for each sample and assigns to mean_auto_CSR_by_furnace
+summary_auto_CRI_by_furnace<-all_data%>%
+  filter(Mode == "Auto")%>%
+  group_by(Sample, Furnace)%>%
+  summarise(mean= mean(CRI), n=n(),sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
+  write_csv(summary_auto_CRI_by_furnace,"results/Summary_auto_CRI_by_furnace.csv",na = "NA", append = FALSE, col_names = TRUE )
+
+#Determine mean CSR for manual runs in each Furnace for each sample and assigns to mean_man_CRI_by_furnace
+summary_man_CSR_by_furnace<-all_data%>%
+  filter(Mode == "Manual")%>%
+  group_by(Sample, Furnace)%>%
+  summarise(mean= mean(CSR), n=n(),sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
+  write_csv(summary_man_CSR_by_furnace,"results/Summary_man_CSR_by_furnace.csv",na = "NA", append = FALSE, col_names = TRUE )
+
+#Determine mean CRI for manual runs in each Furnace for each sample and assigns to mean_man_CRI_by_furnace
+summary_man_CRI_by_furnace<-all_data%>%
+  filter(Mode == "Manual")%>%
+  group_by(Sample, Furnace)%>%
+  summarise(mean= mean(CRI), n=n(),sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
+  write_csv(summary_man_CRI_by_furnace,"results/Summary_man_CRI_by_furnace.csv",na = "NA", append = FALSE, col_names = TRUE )
+
