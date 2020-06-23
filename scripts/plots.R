@@ -238,7 +238,7 @@ PID_plot<-plot_grid(PID_CRI_plot, PID_CSR_plot, rel_widths = c(0.75,1))
 ggsave("figures/PID_plot.png",plot=PID_plot)  
 
 # create plots looking at furnace recovery time and CSR/CRI. 
-Furnace_response_plot <-ggplot (data=validation_data, 
+Furnace_response_plot <-ggplot (data=filter(all_data,Mode=="Auto"), 
         mapping=aes(x= PID_response_sec,
                     y= Furnace,
                     colour=Sample)) +
@@ -249,7 +249,7 @@ Furnace_response_plot <-ggplot (data=validation_data,
   labs(x="Time to return to range (secs)")
 ggsave("figures/Furnace_response_plot.png",plot=Furnace_response_plot)
 
-Furnace_CRI_plot <-ggplot (data=validation_data, 
+Furnace_CRI_plot <-ggplot (data=filter(all_data,Mode=="Auto"), 
                                 mapping=aes(x= CRI,
                                             y= Furnace,
                                             colour=Sample)) +
@@ -259,7 +259,7 @@ Furnace_CRI_plot <-ggplot (data=validation_data,
   theme_bw()
 ggsave("figures/Furnace_CRI_plot.png",plot=Furnace_CRI_plot)
 
-Furnace_CSR_plot <-ggplot (data=validation_data, 
+Furnace_CSR_plot <-ggplot (data=filter(all_data,Mode=="Auto"), 
                            mapping=aes(x= CSR,
                                        y= Furnace,
                                        colour=Sample)) +
