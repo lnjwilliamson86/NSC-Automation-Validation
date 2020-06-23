@@ -236,3 +236,35 @@ ggsave("figures/PID_CSR_plot.png",plot=PID_CSR_plot)
 #join PID response plots together 
 PID_plot<-plot_grid(PID_CRI_plot, PID_CSR_plot, rel_widths = c(0.75,1))
 ggsave("figures/PID_plot.png",plot=PID_plot)  
+
+# create plots looking at furnace recovery time and CSR/CRI. 
+Furnace_response_plot <-ggplot (data=validation_data, 
+        mapping=aes(x= PID_response_sec,
+                    y= Furnace,
+                    colour=Sample)) +
+  geom_point(aes(shape=Mode),size=2) + 
+  scale_colour_manual(values= c("#001932", "#00B1D9","#75767A"))+
+  scale_y_continuous(breaks= c(1,2,3))+
+  theme_bw()+
+  labs(x="Time to return to range (secs)")
+ggsave("figures/Furnace_response_plot.png",plot=Furnace_response_plot)
+
+Furnace_CRI_plot <-ggplot (data=validation_data, 
+                                mapping=aes(x= CRI,
+                                            y= Furnace,
+                                            colour=Sample)) +
+  geom_point(aes(shape=Mode),size=2) + 
+  scale_colour_manual(values= c("#001932", "#00B1D9","#75767A"))+
+  scale_y_continuous(breaks= c(1,2,3))+
+  theme_bw()
+ggsave("figures/Furnace_CRI_plot.png",plot=Furnace_CRI_plot)
+
+Furnace_CSR_plot <-ggplot (data=validation_data, 
+                           mapping=aes(x= CSR,
+                                       y= Furnace,
+                                       colour=Sample)) +
+  geom_point(aes(shape=Mode),size=2) + 
+  scale_colour_manual(values= c("#001932", "#00B1D9","#75767A"))+
+  scale_y_continuous(breaks= c(1,2,3))+
+  theme_bw()
+ggsave("figures/Furnace_CSR_plot.png",plot=Furnace_CSR_plot)
