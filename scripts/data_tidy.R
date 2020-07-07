@@ -238,30 +238,6 @@ SR0190_CSR_t
 
 all_CSR_t
 
-
-
-
-
-
-
-
-#THIS SECTION WAS NOT REQUIRED AS I WAS ABLE TO CALCULATE THE RECOVERY TIME WITH THE DATA IN DTTM FORMART. removing date information from the process data columns.Each test has assosicated process data of interst for this project is the time that it takes
-#the sample temperature to return to the defined limit. The code/strategy for tidying has come from the following websites.  
-#https://stackoverflow.com/questions/42996544/how-to-remove-the-date-from-a-column-containing-both-date-and-time-using-r
-#http://www.datasciencemadesimple.com/drop-variables-columns-r-using-dplyr/
-
-#all_data_time_only<-all_data%>% # takes the dataframe all_data and assigns to validation data frame.
-  #separate(time_to_1100oC,into= c("date","time_to_1100oC"),sep=" ")%>% #separates col time_to_1100oC into 2 cols one called date and the other called time_to_1100oC
-  #separate(Runtime_switch_CO2, into= c("date_2","Runtime_switch_CO2"),sep=" ")%>% #separates col Runtime_switch_CO2 into 2 cols one called date and the other called Runtime_switch_CO2
-  #separate(runtime_max_temp_switch_CO2, into= c("date_3","runtime_max_temp_switch_CO2"),sep=" ")%>% #separates col runtime_max_temp_switch_CO2 into 2 cols one called date and the other called runtime_max_temp_switch_CO2
-  #separate(runtime_min_temp_switch_CO2, into= c("date_4","runtime_min_temp_switch_CO2"),sep=" ")%>% #separates col runtime_min_temp_switch_CO2 into 2 cols one called date and the other called runtime_min_temp_switch_CO2
-  #separate(time_return_range, into= c("date_5","time_return_range"),sep=" ")%>% #separates col time_return_range into 2 cols one called date and the other called time_return_range
-  #separate(total_runtime, into= c("date_6", "total_runtime"),sep= " ")%>% #separates col total_runtime into 2 cols one called date and the other called total_runtime
-  #select(-c(date,date_2,date_3,date_4,date_5,date_6))%>% # select function removes the added date-date_6 cols from the data frame. 
-  #view()#views the data frame
-
-
-
 #calcualte the standard devaition of the mean to give a measure of repeatability https://sciencing.com/do-calculate-repeatability-7446224.html SDM = SD ÷ root (n)
 #Whether you take repeatability to be the standard deviation or the standard deviation of the mean, it's true that the smaller the number, the higher the repeatability, and the higher the reliability of the results.
 SDM<-all_data %>%
@@ -300,18 +276,51 @@ summary_auto_CRI_by_furnace<-all_data%>%
   group_by(Sample, Furnace)%>%
   summarise(mean= mean(CRI), n=n(),sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
   write_csv(summary_auto_CRI_by_furnace,"results/Summary_auto_CRI_by_furnace.csv",na = "NA", append = FALSE, col_names = TRUE )
+  
+#Determine mean response time for automated runs in each Furnace for each sample and assigns to mean_auto_CSR_by_furnace
+  summary_auto_PID_response_by_furnace<-all_data%>%
+    filter(Mode == "Auto")%>%
+    group_by(Sample, Furnace)%>%
+    summarise(mean= mean(PID_response_sec), n=n(),sd= sd(PID_response_sec),var= var(PID_response_sec), median =median(PID_response_sec), IQR= IQR(PID_response_sec))
+  write_csv(summary_auto_PID_response_by_furnace,"results/Summary_auto_PID_response_by_furnace.csv",na = "NA", append = FALSE, col_names = TRUE )  
 
-#Determine mean CSR for manual runs in each Furnace for each sample and assigns to mean_man_CRI_by_furnace
+#This next section actaully doesn't make sense to run. The first two will execute but the third one will not.   
+#Determine mean CSR for manual runs in each Furnace for each sample and assigns to mean_man_CRI_by_furnace code doesn't really make sense to run
 summary_man_CSR_by_furnace<-all_data%>%
   filter(Mode == "Manual")%>%
   group_by(Sample, Furnace)%>%
   summarise(mean= mean(CSR), n=n(),sd= sd(CSR),var= var(CSR), median =median(CSR), IQR= IQR(CSR))
   write_csv(summary_man_CSR_by_furnace,"results/Summary_man_CSR_by_furnace.csv",na = "NA", append = FALSE, col_names = TRUE )
 
-#Determine mean CRI for manual runs in each Furnace for each sample and assigns to mean_man_CRI_by_furnace
+#Determine mean CRI for manual runs in each Furnace for each sample and assigns to mean_man_CRI_by_furnace code doesn't really make sense to run
 summary_man_CRI_by_furnace<-all_data%>%
   filter(Mode == "Manual")%>%
   group_by(Sample, Furnace)%>%
   summarise(mean= mean(CRI), n=n(),sd= sd(CRI),var= var(CRI), median =median(CRI), IQR= IQR(CRI))
   write_csv(summary_man_CRI_by_furnace,"results/Summary_man_CRI_by_furnace.csv",na = "NA", append = FALSE, col_names = TRUE )
 
+#Determine mean response time for automated runs in each Furnace for each sample and assigns to mean_auto_CSR_by_furnace not enough data to run this code
+  #summary_man_PID_response_by_furnace<-all_data%>%
+    #filter(Mode == "Manual")%>%
+    #group_by(Sample, Furnace)%>%
+    #summarise(mean= mean(PID_response_sec), n=n(),sd= sd(PID_response_sec),var= var(PID_response_sec), median =median(PID_response_sec), IQR= IQR(PID_response_sec))
+  #write_csv(summary_man_PID_response_by_furnace,"results/Summary_man_PID_response_by_furnace.csv",na = "NA", append = FALSE, col_names = TRUE )   
+ 
+  
+  
+  
+   
+  #THIS SECTION WAS NOT REQUIRED AS I WAS ABLE TO CALCULATE THE RECOVERY TIME WITH THE DATA IN DTTM FORMART. removing date information from the process data columns.Each test has assosicated process data of interst for this project is the time that it takes
+  #the sample temperature to return to the defined limit. The code/strategy for tidying has come from the following websites.  
+  #https://stackoverflow.com/questions/42996544/how-to-remove-the-date-from-a-column-containing-both-date-and-time-using-r
+  #http://www.datasciencemadesimple.com/drop-variables-columns-r-using-dplyr/
+  
+  #all_data_time_only<-all_data%>% # takes the dataframe all_data and assigns to validation data frame.
+  #separate(time_to_1100oC,into= c("date","time_to_1100oC"),sep=" ")%>% #separates col time_to_1100oC into 2 cols one called date and the other called time_to_1100oC
+  #separate(Runtime_switch_CO2, into= c("date_2","Runtime_switch_CO2"),sep=" ")%>% #separates col Runtime_switch_CO2 into 2 cols one called date and the other called Runtime_switch_CO2
+  #separate(runtime_max_temp_switch_CO2, into= c("date_3","runtime_max_temp_switch_CO2"),sep=" ")%>% #separates col runtime_max_temp_switch_CO2 into 2 cols one called date and the other called runtime_max_temp_switch_CO2
+  #separate(runtime_min_temp_switch_CO2, into= c("date_4","runtime_min_temp_switch_CO2"),sep=" ")%>% #separates col runtime_min_temp_switch_CO2 into 2 cols one called date and the other called runtime_min_temp_switch_CO2
+  #separate(time_return_range, into= c("date_5","time_return_range"),sep=" ")%>% #separates col time_return_range into 2 cols one called date and the other called time_return_range
+  #separate(total_runtime, into= c("date_6", "total_runtime"),sep= " ")%>% #separates col total_runtime into 2 cols one called date and the other called total_runtime
+  #select(-c(date,date_2,date_3,date_4,date_5,date_6))%>% # select function removes the added date-date_6 cols from the data frame. 
+  #view()#views the data frame
