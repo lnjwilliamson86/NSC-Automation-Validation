@@ -268,3 +268,69 @@ Furnace_CSR_plot <-ggplot (data=filter(all_data,Mode=="Auto"),
   scale_y_continuous(breaks= c(1,2,3))+
   theme_bw()
 ggsave("figures/Furnace_CSR_plot.png",plot=Furnace_CSR_plot)
+
+#box and wiskerplots for CRI and CSR for SR0204
+SR0204_CRI_BWplot <- ggplot(data= filter(all_data,Sample=="SR0204"),
+                          mapping=aes(x=Mode,
+                                      y=CRI,
+                                      fill=Mode))+
+  geom_boxplot()+
+  scale_fill_manual(values= c("#00B1D9","#75767A"))+
+  theme_bw()
+ggsave("figures/SR0204_CRI_BWplot.png",plot=SR0204_CRI_BWplot)
+
+SR0204_CSR_BWplot <- ggplot(data= filter(all_data,Sample=="SR0204"),
+                            mapping=aes(x=Mode,
+                                        y=CSR,
+                                        fill=Mode))+
+  geom_boxplot()+
+  scale_fill_manual(values= c("#00B1D9","#75767A"))+
+  theme_bw()
+ggsave("figures/SR0204_CSR_BWplot.png",plot=SR0204_CSR_BWplot)
+
+#box and wiskerplots for CRI and CSR for SR0190
+SR0190_CRI_BWplot <- ggplot(data= filter(all_data,Sample=="SR0190"),
+                            mapping=aes(x=Mode,
+                                        y=CRI,
+                                        fill=Mode))+
+  geom_boxplot()+
+  scale_fill_manual(values= c("#00B1D9","#75767A"))+
+  theme_bw()
+ggsave("figures/SR0190_CRI_BWplot.png",plot=SR0190_CRI_BWplot)
+
+SR0190_CSR_BWplot <- ggplot(data= filter(all_data,Sample=="SR0190"),
+                            mapping=aes(x=Mode,
+                                        y=CSR,
+                                        fill=Mode))+
+  geom_boxplot()+
+  scale_fill_manual(values= c("#00B1D9","#75767A"))+
+  theme_bw()
+ggsave("figures/SR0190_CSR_BWplot.png",plot=SR0190_CSR_BWplot)
+
+#box and wiskerplots for CRI and CSR for SR0170
+SR0170_CRI_BWplot <- ggplot(data= filter(all_data,Sample=="SR0170"),
+                            mapping=aes(x=Mode,
+                                        y=CRI,
+                                        fill=Mode))+
+  geom_boxplot()+
+  scale_fill_manual(values= c("#00B1D9","#75767A"))+
+  theme_bw()
+ggsave("figures/SR0170_CRI_BWplot.png",plot=SR0170_CRI_BWplot)
+
+SR0170_CSR_BWplot <- ggplot(data= filter(all_data,Sample=="SR0170"),
+                            mapping=aes(x=Mode,
+                                        y=CSR,
+                                        fill=Mode))+
+  geom_boxplot()+
+  scale_fill_manual(values= c("#00B1D9","#75767A"))+
+  theme_bw()
+ggsave("figures/SR0170_CSR_BWplot.png",plot=SR0170_CSR_BWplot)
+
+#create grid plots for CRI and CSR
+CSR_BWplot<- plot_grid(SR0204_CSR_BWplot,SR0170_CSR_BWplot,SR0190_CSR_BWplot)
+ggsave("figures/CSR_BWplot.png",plot=CSR_BWplot)
+
+CRI_BWplot<- plot_grid(SR0204_CRI_BWplot,SR0170_CRI_BWplot,SR0190_CRI_BWplot)
+ggsave("figures/CRI_BWplot.png",plot=CRI_BWplot)
+
+
