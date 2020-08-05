@@ -189,9 +189,6 @@ write_csv(CSR_Summary_all,"results/CSR_Summary_output.csv",na = "NA", append = F
 write_csv(CRI_Summary_all,"results/CRI_Summary_output.csv",na = "NA", append = FALSE, col_names = TRUE )
 
 
-
-
-
 #t test for difference between means for CSR & CRI
 #1. Filter all_data to give data for each sample
 SR0204_only <- all_data %>%
@@ -237,6 +234,122 @@ SR0170_CSR_t
 SR0190_CSR_t 
 
 all_CSR_t
+
+#t test confidence interval of the population mean https://www.econometrics-with-r.org/3-4-confidence-intervals-for-the-population-mean.html
+#1. Filter all_data to give a vector of interest for each condition (auto/manual), sample and  test index (CRI/CSR) using filter and pull functions. 
+#The pull function takes data from a tibble and makes it a vector. a vector is required to determine the confidence interval of the 
+#population mean or a sample mean for SR0204 n =30 (sample from auto) for SR0190 n= 20 (sample from auto)  and for SR0170 n= 6 (sample from manual)
+#sampling occurs from which ever has the larger number of points using sample_n function. 
+
+SR0204_Auto_CRI <- all_data %>%
+  filter(Sample=="SR0204",Mode=="Auto")%>%
+  sanmple_n(30)%>%
+  pull(CRI)
+
+SR0204_Auto_CSR <- all_data %>%
+  filter(Sample=="SR0204",Mode=="Auto")%>%
+  sample-n(30)%>%
+  pull(CSR)
+
+SR0204_Man_CRI <- all_data %>%
+  filter(Sample=="SR0204",Mode=="Manual")%>%
+  pull(CRI)
+
+SR0204_Man_CSR <- all_data %>%
+  filter(Sample=="SR0204",Mode=="Manual")%>%
+  pull(CSR)
+
+SR0170_Auto_CRI <- all_data %>%
+  filter(Sample=="SR0170",Mode=="Auto")%>%
+  pull(CRI)
+
+SR0170_Auto_CSR <- all_data %>%
+  filter(Sample=="SR0170",Mode=="Auto")%>%
+  pull(CSR)
+
+SR0170_Man_CRI <- all_data %>%
+  filter(Sample=="SR0170",Mode=="Manual")%>%
+  sample_n(6)%>%
+  pull(CRI)
+
+SR0170_Man_CSR <- all_data %>%
+  filter(Sample=="SR0170",Mode=="Manual")%>%
+  sample_n(6)%>%
+  pull(CSR)
+
+SR0190_Auto_CRI <- all_data %>%
+  filter(Sample=="SR0190", Mode=="Auto")%>%
+  sample_n(20)%>%
+  pull(CRI)
+
+SR0190_Auto_CSR <- all_data %>%
+  filter(Sample=="SR0190", Mode=="Auto")%>%
+  sample_n(20)%>%
+  pull(CSR)
+
+SR0190_Man_CRI <- all_data %>%
+  filter(Sample=="SR0190", Mode=="Manual")%>%
+    pull(CRI)
+
+SR0190_Man_CSR <- all_data %>%
+  filter(Sample=="SR0190", Mode=="Manual")%>%
+  pull(CSR)
+
+#2. T test for CRI sample Mean Confidence Intervals
+SR0204_Auto_CRI_t <- t.test(SR0204_Auto_CRI)
+
+SR0204_Man_CRI_t <- t.test(SR0204_Man_CRI)
+
+SR0170_Auto_CRI_t <- t.test(SR0170_Auto_CRI)
+
+SR0170_Man_CRI_t <- t.test(SR0170_Man_CRI) 
+
+SR0190_Auto_CRI_t <- t.test(SR0190_Auto_CRI)
+
+SR0190_Man_CRI_t <- t.test(SR0190_Man_CRI)
+
+#3. T test for CSR Population Mean Confidence Intervals
+SR0204_Auto_CSR_t <- t.test(SR0204_Auto_CSR)
+
+SR0204_Man_CSR_t <- t.test(SR0204_Man_CSR)
+
+SR0170_Auto_CSR_t <- t.test(SR0170_Auto_CSR)
+
+SR0170_Man_CSR_t <- t.test(SR0170_Man_CSR)
+
+SR0190_Auto_CSR_t <- t.test(SR0190_Auto_CSR)
+
+SR0190_Man_CSR_t <- t.test(SR0190_Man_CSR)
+
+# 4. Print to console
+SR0204_Auto_CRI_t 
+
+SR0204_Man_CRI_t
+
+SR0204_Auto_CSR_t 
+
+SR0204_Man_CSR_t 
+
+SR0170_Auto_CRI_t
+
+SR0170_Man_CRI_t 
+
+SR0170_Auto_CSR_t 
+
+SR0170_Man_CSR_t 
+
+SR0190_Auto_CRI_t 
+
+SR0190_Man_CRI_t 
+
+SR0190_Auto_CSR_t 
+
+SR0190_Man_CSR_t
+
+#using capture.output anf writeLines functions to save t test outputs to a text file
+#https://stackoverflow.com/questions/30707112/how-to-save-t-test-result-in-r-to-a-txt-file
+testcapture <-capture.output(print(SR0190_Man_CSR_t),print(SR0190_Auto_CSR_t)) ## need to add all t tests to this code string. 
+writeLines(testcapture,con=file("results/confidence_interval_means.txt"))
 
 #calcualte the standard devaition of the mean to give a measure of repeatability https://sciencing.com/do-calculate-repeatability-7446224.html SDM = SD ÷ root (n)
 #Whether you take repeatability to be the standard deviation or the standard deviation of the mean, it's true that the smaller the number, the higher the repeatability, and the higher the reliability of the results.
