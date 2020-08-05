@@ -243,12 +243,12 @@ all_CSR_t
 
 SR0204_Auto_CRI <- all_data %>%
   filter(Sample=="SR0204",Mode=="Auto")%>%
-  sanmple_n(30)%>%
+  sample_n(30)%>%
   pull(CRI)
 
 SR0204_Auto_CSR <- all_data %>%
   filter(Sample=="SR0204",Mode=="Auto")%>%
-  sample-n(30)%>%
+  sample_n(30)%>%
   pull(CSR)
 
 SR0204_Man_CRI <- all_data %>%
